@@ -5,6 +5,7 @@ import com.crusader.seekho_anime.AnimeDetailResponse
 import com.crusader.seekho_anime.data.api.AnimeApi
 import com.crusader.seekho_anime.data.db.AnimeDao
 import com.crusader.seekho_anime.data.db.AnimeEntity
+import com.crusader.seekho_anime.data.model.CharactersResponse
 
 class AnimeRepository(
     private val api: AnimeApi,
@@ -32,5 +33,9 @@ class AnimeRepository(
 
     suspend fun getAnimeDetail(id: Int): AnimeDetailResponse {
         return api.getAnimeDetail(id)
+    }
+
+    suspend fun getCharacters(id: Int): CharactersResponse {
+        return api.getCharacters(id)
     }
 }

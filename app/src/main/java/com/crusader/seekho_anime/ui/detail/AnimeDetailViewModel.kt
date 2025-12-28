@@ -14,12 +14,22 @@ class AnimeDetailViewModel(
     private val repo: AnimeRepository
 ) : ViewModel() {
 
-    private val _detail = MutableStateFlow<AnimeDetailResponse?>(null)
-    val detail: StateFlow<AnimeDetailResponse?> = _detail
+    private val _detail = MutableStateFlow<AnimeDetailDto?>(null)
+    val detail: StateFlow<AnimeDetailDto?> = _detail
+
+    private val _cast = MutableStateFlow<List<String>>(emptyList())
+    val cast: StateFlow<List<String>> = _cast
 
     fun load(id: Int) {
         viewModelScope.launch {
-            _detail.value = repo.getAnimeDetail(id)
+            val detailResponse = repo.getAnimeDetail(id)
+            _detail.value = detailResponse.data
+
+            val characters = repo.getCharacters(id)
+            _cast.value = characters.data
+                .take(5)
+                .map { it.character.name }
         }
     }
 }
+
